@@ -1,24 +1,27 @@
+/* eslint-env jquery */
+/* global google */
+
 $(function () {
   console.log('at demo.js')
 
   var palette = [ '87CEEB', 'FFFFE0', 'FFC0CB', '00FF7F', 'FFA07A' ]
 
-  var $elapsed = $('#elapsed'),
-    $cost = $('#cost'),
-    $solution = $('#solution'),
-    $customers = $('#customers'),
-    $depot = $('#depot'),
-    $numWorkers = $('#numWorkers'),
-    $maxRouteLength = $('#maxRouteLength'),
-    $lengthPenalty = $('#lengthPenalty'),
-    $stability = $('#stability'),
-    $info = $('#info'),
-    $options = $('#options'),
-    $errorMessage = $('#errorMessage')
+  var $elapsed = $('#elapsed')
+  var $cost = $('#cost')
+  var $solution = $('#solution')
+  var $customers = $('#customers')
+  var $depot = $('#depot')
+  var $numWorkers = $('#numWorkers')
+  var $maxRouteLength = $('#maxRouteLength')
+  var $lengthPenalty = $('#lengthPenalty')
+  var $stability = $('#stability')
+  // var $info = $('#info')
+  // var $options = $('#options')
+  var $errorMessage = $('#errorMessage')
 
   // stork input arrays
-  var distances = [],
-    depot = []
+  var distances = []
+  var depot = []
 
   // render map in container
   var map = new Map('#map-canvas')
@@ -60,8 +63,8 @@ $(function () {
       if (status !== google.maps.DistanceMatrixStatus.OK) { return console.log('got google status:', status) }
 
       // success - format google's data for REST API call to stork
-      var origins = res.originAddresses,
-        dests = res.destinationAddresses
+      var origins = res.originAddresses
+      // var dests = res.destinationAddresses
 
       origins.forEach(function (origin, i) {
         distances[i] = []
@@ -83,8 +86,8 @@ $(function () {
       })
 
       // build customers array for stork input
-      var custs = [],
-        num = distances.length
+      var custs = []
+      var num = distances.length
 
       while (num--) {
         custs.push(num)

@@ -1,3 +1,7 @@
+/* eslint-env jquery */
+/* global google */
+/* eslint no-extend-native: ["error", { "exceptions": ["Map"] }] */
+
 function Map (el) {
   this.el = el
   this.markers = []
@@ -9,20 +13,20 @@ function Map (el) {
 }
 
 Map.prototype.makeMarker = function (latLng, color) {
-  var pinUrl = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|'+color
+  var pinUrl = 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|' + color
   var pin = new google.maps.MarkerImage(
     pinUrl
-  , new google.maps.Size(21, 34)
-  , new google.maps.Point(0,0)
-  , new google.maps.Point(10, 34)
+    , new google.maps.Size(21, 34)
+    , new google.maps.Point(0, 0)
+    , new google.maps.Point(10, 34)
   )
 
   var shadowUrl = 'http://chart.apis.google.com/chart?chst=d_map_pin_shadow'
   var shadow = new google.maps.MarkerImage(
     shadowUrl
-  , new google.maps.Size(40, 37)
-  , new google.maps.Point(0, 0)
-  , new google.maps.Point(12, 35)
+    , new google.maps.Size(40, 37)
+    , new google.maps.Point(0, 0)
+    , new google.maps.Point(12, 35)
   )
   var marker = new google.maps.Marker({ position: latLng, map: this.gmap, icon: pin, shadow: shadow })
 
@@ -41,8 +45,9 @@ Map.prototype.geocode = function (address, cb) {
   this.geocoder.geocode({ address: address }, onComplete)
 
   function onComplete (res, status) {
-    if (status !== google.maps.GeocoderStatus.OK) 
+    if (status !== google.maps.GeocoderStatus.OK) {
       return cb(status)
+    }
 
     return cb(null, res)
   }
@@ -52,11 +57,11 @@ Map.prototype.clear = function () {
   this.markers.forEach(function (marker) {
     marker.setMap(null)
   })
-  
+
   this.paths.forEach(function (path) {
     path.setMap(null)
   })
 }
 
-//expose Map globally
+// expose Map globally
 window.Map = Map

@@ -1,7 +1,6 @@
-var http = require('http'),
-  path = require('path'),
-  express = require('express'),
-  Router = require('./router')
+var path = require('path')
+var express = require('express')
+var Router = require('./router')
 
 // Middlewares
 var bodyParser = require('body-parser')
@@ -22,7 +21,7 @@ Stork.prototype.configure = function () {
   var env = process.env.NODE_ENV || 'development'
   if (env === 'development') {
     app.use(bodyParser.json())
-    app.use(express.static(__dirname + '/public'))
+    app.use(express.static(path.join(__dirname, '/public')))
     app.use(errorhandler({
       dumpExceptions: true,
       showStack: true
@@ -31,8 +30,8 @@ Stork.prototype.configure = function () {
 }
 
 Stork.prototype.registerRoutes = function () {
-  var self = this,
-    app = this.app
+  // var self = this
+  var app = this.app
 
   app.get('/', function (req, res) {
     res.sendfile(path.resolve(__dirname, 'views/map.html'))

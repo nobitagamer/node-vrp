@@ -5,5 +5,7 @@ services:
     build: .
     volumes:
       - ./:/app
+    environment:
+      - PORT=9999
     ports:
-      - "80:8080"
+      - "80:9999"

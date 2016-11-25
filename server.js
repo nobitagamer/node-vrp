@@ -1,3 +1,3 @@
 var Stork = require('./stork')
 
-new Stork({ port: 8080 }).start()
+new Stork({ port: process.env.PORT || 8080, verbose: true }).start()

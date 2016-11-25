@@ -46,7 +46,7 @@ if (typeof module !== 'undefined') {
 Router.prototype.solve = function () {
   var t1 = Date.now()
   var i = 0
-  var self = this
+  // var self = this
 
   // # iterations since a new beter solution was found
   this.stability = 0
@@ -65,9 +65,9 @@ Router.prototype.solve = function () {
     while (n <= this.opts.iterPerTemp) {
       this.stability++
       // get neighboring solution
-      var neighbor = this.getPermutation(),
-        cost = this.getCost(neighbor),
-        deltaCost = cost - this.cost
+      var neighbor = this.getPermutation()
+      var cost = this.getCost(neighbor)
+      var deltaCost = cost - this.cost
 
       if (deltaCost <= 0) {
         // accept this solution; it's a better one
@@ -79,8 +79,8 @@ Router.prototype.solve = function () {
         this.log('\ngot better solution. %s cost: %s. Accepting.', deltaChar, deltaCost)
       } else {
         // determine whether to accept this worse solution
-        var x = Math.random(),
-          prob = Math.pow(E, -deltaCost / this.temperature)
+        var x = Math.random()
+        var prob = Math.pow(E, -deltaCost / this.temperature)
 
         var template = '\ngot worse solution. %s cost: %s temp: %s acceptance prob: %s'
 
@@ -123,8 +123,8 @@ Router.prototype.reduceTemperature = function () {
 //  cool, stable, and solution is acceptable
 //
 Router.prototype.isCooled = function () {
-  var self = this,
-    maxLen = this.opts.maxRouteLength
+  var self = this
+  var maxLen = this.opts.maxRouteLength
 
   var isStable = this.stability > this.opts.stability
   var isCool = this.temperature < this.opts.coolTemp
@@ -152,12 +152,15 @@ Router.prototype.isCooled = function () {
 //  Get a neighboring solution
 //
 Router.prototype.getPermutation = function () {
-  var sol = [].slice.call(this.solution),
-    numWorkers = sol.length
+  var sol = [].slice.call(this.solution)
+  var numWorkers = sol.length
 
-  var aRow = bRow = 0
-  var aRoute = bRoute = null
-  var aIndex = bIndex = 0
+  var aRow = 0
+  var bRow = 0
+  var aRoute = null
+  var bRoute = null
+  var aIndex = 0
+  var bIndex = 0
   var aCust = 0
 
   function randRange (max) {
@@ -226,9 +229,9 @@ Router.prototype.getRouteDistance = function (route) {
 //  (solution) -> cost (Number)
 //
 Router.prototype.getCost = function (solution) {
-  var self = this,
-    cost = 0,
-    maxLen = this.opts.maxRouteLength
+  var self = this
+  var cost = 0
+  var maxLen = this.opts.maxRouteLength
 
   solution.forEach(function (route) {
     var dist = self.getRouteDistance(route)
@@ -246,14 +249,15 @@ Router.prototype.getCost = function (solution) {
 //  get a random solution plan
 //
 Router.prototype.getRandomSolution = function () {
-  var cust = this.opts.customers,
-    numWorkers = this.opts.numWorkers,
-    solution = []
+  var cust = this.opts.customers
+  var numWorkers = this.opts.numWorkers
+  var solution = []
 
   // randomize customer order
   cust.sort(function (a, b) {
-    var aNum = Math.random(),
-      bNum = Math.random()
+    var aNum = Math.random()
+    var bNum = Math.random()
+
     return aNum - bNum
   })
 

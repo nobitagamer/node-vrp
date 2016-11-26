@@ -6,10 +6,7 @@ services:
     build: .
     volumes:
       - ./:/app
-      - apidata:/var/data
     environment:
       - PORT=9999
     ports:
       - "80:9999"
-volumes:
-  apidata:

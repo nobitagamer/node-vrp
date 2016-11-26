@@ -57,7 +57,7 @@ Stork.prototype.registerRoutes = function () {
     var numCustomers = input.customer_demands.length
     var customers = []
     for (var i = 0; i < numCustomers; i++) {
-      customers.push[i]
+        customers[i] = i;
     }
 
     var opts = {
@@ -66,11 +66,11 @@ Stork.prototype.registerRoutes = function () {
       customers: customers,
       customer_demands: input.customer_demands,
       distances: utils.getDistances(input.customer_locations),
-      depots: utils.getDepotDistances(input.depots, input.customer_locations),
+      depot: utils.getDepotDistances(input.depots, input.customer_locations),
       maxRouteLength: 0,
       lengthPenalty: 0,
       stability: 1000,
-      verbose: true
+      verbose: false
     }
 
     // console.log('opts', opts)

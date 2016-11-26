@@ -52,15 +52,6 @@ Stork.prototype.registerRoutes = function () {
     //             "customer_locations": [[<x>, <y>], ...],
     //             "customer_demands": [...]
     //         }
-
-    //     }
-
-    // Response
-    //     {
-    //         "routes": [
-    //             [[0, 2, 4]], # Routes from the first depot
-    //             [[1, 3]],    # Routes from the second depot
-    //         ]
     //     }
 
     var numCustomers = input.customer_demands.length
@@ -70,7 +61,7 @@ Stork.prototype.registerRoutes = function () {
     }
 
     var opts = {
-      numWorkers: 1,
+      numWorkers: utils.getMinWorkers(input.vehicle_capacity, input.customer_demands),
       capacity: input.vehicle_capacity,
       customers: customers,
       customer_demands: input.customer_demands,
@@ -82,7 +73,7 @@ Stork.prototype.registerRoutes = function () {
       verbose: true
     }
 
-    console.log('opts', opts)
+    // console.log('opts', opts)
 
     var router = new Router(opts)
     var result = router.solveMdc()
@@ -94,7 +85,7 @@ Stork.prototype.registerRoutes = function () {
   app.post('/solve', function (req, res) {
     var opts = req
 
-    //console.log('opts', opts)
+    console.log('opts', opts)
 
     var router = new Router(opts)
     var result = router.solve()

@@ -52,8 +52,64 @@ if (typeof module !== 'undefined') {
 //     }
 Router.prototype.solveMdc = function () {
   var t1 = Date.now()
+  var i = 0
   // var self = this
 
+  // # iterations since a new beter solution was found
+  this.stability = 0
+  this.temperature = this.opts.temperature
+
+  // generate initial solution (random solution)
+  this.solution = this.getRandomSolution()
+  this.cost = this.getCost(this.solution)
+
+  this.log('initial solution:', this.solution, 'cost:', this.cost)
+
+  while (!this.isCooled()) {
+    // run n iterations at each temperature
+    var n = 0
+
+    while (n <= this.opts.iterPerTemp) {
+      this.stability++
+      // get neighboring solution
+      var neighbor = this.getPermutation()
+      var cost = this.getCost(neighbor)
+      var deltaCost = cost - this.cost
+
+      if (deltaCost <= 0) {
+        // accept this solution; it's a better one
+        this.solution = neighbor
+        this.cost = cost
+
+        if (deltaCost < 0) { this.stability = 0 }
+
+        this.log('\ngot better solution. %s cost: %s. Accepting.', deltaChar, deltaCost)
+      } else {
+        // determine whether to accept this worse solution
+        var x = Math.random()
+        var prob = Math.pow(E, -deltaCost / this.temperature)
+
+        var template = '\ngot worse solution. %s cost: %s temp: %s acceptance prob: %s'
+
+        this.log(template, deltaChar, deltaCost, this.temperature, prob)
+
+        if (x < prob) {
+          this.log('accepting worse solution')
+          this.solution = neighbor
+          this.cost = cost
+          this.stability = 0
+        } else {
+          this.log('rejecting worse solution')
+        }
+      }
+
+      this.log('solution #', i, ':', this.solution)
+      this.log('cost:', this.cost, 'stability:', this.stability)
+      n++
+      i++
+    }
+  }
+  
   var elapsed = Date.now() - t1
 
   return {

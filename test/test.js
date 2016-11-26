@@ -1,171 +1,171 @@
 var http = require('http')
 var Stork = require('../stork')
 
-var utils = require('../lib/utils');
+var utils = require('../lib/utils')
 
-
-var customer_locations =  [
+var customerLocations = [
   [
-            43, 
-            19
-        ], 
-        [
-            79, 
-            35
-        ], 
-        [
-            93, 
-            7
-        ], 
-        [
-            13, 
-            35
-        ], 
-        [
-            67, 
-            13
-        ], 
-        [
-            31, 
-            77
-        ], 
-        [
-            81, 
-            7
-        ], 
-        [
-            27, 
-            49
-        ], 
-        [
-            27, 
-            35
-        ], 
-        [
-            69, 
-            23
-        ], 
-        [
-            31, 
-            51
-        ], 
-        [
-            27, 
-            27
-        ], 
-        [
-            15, 
-            83
-        ], 
-        [
-            7, 
-            35
-        ], 
-        [
-            53, 
-            25
-        ], 
-        [
-            75, 
-            13
-        ], 
-        [
-            47, 
-            49
-        ], 
-        [
-            25, 
-            33
-        ], 
-        [
-            1, 
-            23
-        ], 
-        [
-            45, 
-            11
-        ], 
-        [
-            1, 
-            47
-        ], 
-        [
-            93, 
-            15
-        ], 
-        [
-            41, 
-            9
-        ], 
-        [
-            75, 
-            55
-        ], 
-        [
-            3, 
-            1
-        ], 
-        [
-            51, 
-            67
-        ], 
-        [
-            57, 
-            91
-        ], 
-        [
-            21, 
-            97
-        ], 
-        [
-            55, 
-            13
-        ], 
-        [
-            3, 
-            71
-        ], 
-        [
-            37, 
-            19
-        ], 
-        [
-            73, 
-            21
-        ], 
-        [
-            19, 
-            19
-        ], 
-        [
-            75, 
-            73
-        ], 
-        [
-            93, 
-            49
-        ], 
-        [
-            41, 
-            87
-        ], 
-        [
-            97, 
-            73
-        ], 
-        [
-            45, 
-            29
-        ]
-    ];
-var depot =[ [
+    43,
+    19
+  ],
+  [
+    79,
+    35
+  ],
+  [
+    93,
+    7
+  ],
+  [
+    13,
+    35
+  ],
+  [
+    67,
+    13
+  ],
+  [
+    31,
+    77
+  ],
+  [
+    81,
+    7
+  ],
+  [
+    27,
+    49
+  ],
+  [
+    27,
+    35
+  ],
+  [
+    69,
+    23
+  ],
+  [
+    31,
+    51
+  ],
+  [
+    27,
+    27
+  ],
+  [
+    15,
+    83
+  ],
+  [
+    7,
+    35
+  ],
+  [
+    53,
+    25
+  ],
+  [
+    75,
+    13
+  ],
+  [
+    47,
+    49
+  ],
+  [
+    25,
+    33
+  ],
+  [
+    1,
+    23
+  ],
+  [
+    45,
+    11
+  ],
+  [
+    1,
+    47
+  ],
+  [
+    93,
+    15
+  ],
+  [
+    41,
+    9
+  ],
+  [
+    75,
+    55
+  ],
+  [
+    3,
+    1
+  ],
+  [
+    51,
+    67
+  ],
+  [
+    57,
+    91
+  ],
+  [
+    21,
+    97
+  ],
+  [
+    55,
+    13
+  ],
+  [
+    3,
+    71
+  ],
+  [
+    37,
+    19
+  ],
+  [
+    73,
+    21
+  ],
+  [
+    19,
+    19
+  ],
+  [
+    75,
+    73
+  ],
+  [
+    93,
+    49
+  ],
+  [
+    41,
+    87
+  ],
+  [
+    97,
+    73
+  ],
+  [
+    45,
+    29
+  ]
+]
+var depot = [
+  [
     1,
     -1
-]];
+  ]
+]
 
-//console.log(utils.getDistances(customer_locations));
-//console.log(utils.getDepotDistances(depot, customer_locations));
-
+// console.log(utils.getDistances(customerLocations))
+// console.log(utils.getDepotDistances(depot, customerLocations))
 
 var testCases = [
   {
@@ -223,8 +223,221 @@ var reqOpts = {
   }
 }
 
-testCases.forEach(function (opts) {
-  var req = http.request(reqOpts, function (res) {
+// testCases.forEach(function (opts) {
+//   var req = http.request(reqOpts, function (res) {
+//     var data = ''
+//     res.on('data', function (chunk) {
+//       data += chunk
+//     })
+//     res.on('end', function () {
+//       console.log('client got', data)
+//     })
+//   })
+//   req.on('error', function (err) {
+//     console.log('http client request error:', err)
+//   })
+//   console.log('opts', JSON.stringify(opts))
+//   req.end(JSON.stringify(opts))
+
+// // console.log('\nelapsed time: %s ms. Cost: %s', result.elapsed, result.cost)
+// // console.log('solution:', result.solution)
+// })
+
+var mdcTestCases = [
+  {
+    'problem_data': {
+      'vehicle_capacity': 100,
+      'depots': [
+        [
+          1,
+          -1
+        ]
+      ],
+      'customer_demands': [
+        23,
+        3,
+        24,
+        15,
+        15,
+        24,
+        7,
+        25,
+        13,
+        5,
+        7,
+        5,
+        14,
+        13,
+        5,
+        24,
+        15,
+        9,
+        16,
+        13,
+        16,
+        13,
+        24,
+        20,
+        23,
+        20,
+        3,
+        15,
+        12,
+        19,
+        4,
+        15,
+        1
+      ],
+      'customer_locations': [
+        [
+          67,
+          91
+        ],
+        [
+          39,
+          21
+        ],
+        [
+          3,
+          9
+        ],
+        [
+          97,
+          15
+        ],
+        [
+          91,
+          65
+        ],
+        [
+          55,
+          75
+        ],
+        [
+          55,
+          71
+        ],
+        [
+          57,
+          85
+        ],
+        [
+          21,
+          15
+        ],
+        [
+          47,
+          57
+        ],
+        [
+          51,
+          97
+        ],
+        [
+          11,
+          11
+        ],
+        [
+          43,
+          59
+        ],
+        [
+          63,
+          69
+        ],
+        [
+          55,
+          77
+        ],
+        [
+          35,
+          11
+        ],
+        [
+          27,
+          91
+        ],
+        [
+          49,
+          25
+        ],
+        [
+          29,
+          93
+        ],
+        [
+          71,
+          27
+        ],
+        [
+          31,
+          43
+        ],
+        [
+          27,
+          9
+        ],
+        [
+          67,
+          99
+        ],
+        [
+          87,
+          81
+        ],
+        [
+          23,
+          81
+        ],
+        [
+          89,
+          33
+        ],
+        [
+          71,
+          91
+        ],
+        [
+          19,
+          77
+        ],
+        [
+          65,
+          77
+        ],
+        [
+          87,
+          79
+        ],
+        [
+          19,
+          83
+        ],
+        [
+          1,
+          59
+        ],
+        [
+          55,
+          7
+        ]
+      ]
+    }
+  }
+]
+
+var mdcReqOpts = {
+  host: '127.0.0.1',
+  port: 8080,
+  path: '/mdcvrp',
+  method: 'POST',
+  headers: {
+    'content-type': 'application/json'
+  }
+}
+
+mdcTestCases.forEach(function (opts) {
+  var req = http.request(mdcReqOpts, function (res) {
     var data = ''
     res.on('data', function (chunk) {
       data += chunk

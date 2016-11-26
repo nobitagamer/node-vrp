@@ -174,7 +174,8 @@ var customer_demands = [
     15,
     3,
     20,
-    16,
+    16
+    /*,
     9,
     21,
     3,
@@ -202,13 +203,13 @@ var customer_demands = [
     24,
     19,
     4,
-    7
+    7*/
 ];
 
 
-console.log(utils.getDistances(customerLocations));
+//console.log(utils.getDistances(customerLocations));
 // console.log(utils.getDepotDistances(depot, customerLocations))
-//console.log("Total worker:" + utils.getMinWorkers(100, customer_demands));
+console.log("Total worker:" + utils.getMinWorkers(50, customer_demands));
 
 var testCases = [
   {
@@ -479,22 +480,22 @@ var mdcReqOpts = {
   }
 }
 
-//mdcTestCases.forEach(function (opts) {
-//  var req = http.request(mdcReqOpts, function (res) {
-//    var data = ''
-//    res.on('data', function (chunk) {
-//      data += chunk
-//    })
-//    res.on('end', function () {
-//      console.log('client got', data)
-//    })
-//  })
-//  req.on('error', function (err) {
-//    console.log('http client request error:', err)
-//  })
-//  console.log('opts', JSON.stringify(opts))
-//  req.end(JSON.stringify(opts))
+mdcTestCases.forEach(function (opts) {
+  var req = http.request(mdcReqOpts, function (res) {
+    var data = ''
+    res.on('data', function (chunk) {
+      data += chunk
+    })
+    res.on('end', function () {
+      console.log('client got', data)
+    })
+  })
+  req.on('error', function (err) {
+    console.log('http client request error:', err)
+  })
+  console.log('opts', JSON.stringify(opts))
+  req.end(JSON.stringify(opts))
 
-//// console.log('\nelapsed time: %s ms. Cost: %s', result.elapsed, result.cost)
-//// console.log('solution:', result.solution)
-//})
+// console.log('\nelapsed time: %s ms. Cost: %s', result.elapsed, result.cost)
+// console.log('solution:', result.solution)
+})

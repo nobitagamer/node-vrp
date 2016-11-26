@@ -54,7 +54,15 @@ $(function () {
         console.log('opts customers', customers)
 
         var locations = [].slice.call(customers)
-        locations.unshift(depotLoc)
+
+
+        depotLoc.forEach(function (el, i) {
+            locations.push(el)
+        })
+
+        //locations.unshift(depotLoc)
+
+        //locations.unshift(depotLoc)
 
         // get distance matrix from google
         var service = new google.maps.DistanceMatrixService()
@@ -176,7 +184,7 @@ $(function () {
       '15|764 Võ Văn Kiệt, phường 1, Hồ Chí Minh, phường 1, Vietnam',
       '16|Đường số 9, 02-04, Khu đô thị Him Lam, Tân Hưng, Quận 7, Hồ Chí Minh, Vietnam',
       '17|180 Cao Lỗ, phường 4, Quận 8, Ho Chi Minh City, Vietnam',
-      '18|TheVentures Vietnam, 3rd Floor'
+      '18|TheVentures Vietnam, 3rd Floor, 9 Nguyễn Trãi, Bến Thành, Quận 1, Hồ Chí Minh, Vietnam'
     ]
 
     // stork solution opts
@@ -190,6 +198,14 @@ $(function () {
         verbose: false,
         customer_demands: []
     }
+
+    var ncustomers = opts.customers
+    opts.customers = []
+    ncustomers.forEach(function (el, j) {
+        opts.customers.push(el.split('|')[1])
+        opts.customer_demands.push(el.split('|')[0])
+    })
+
 
     // fill out default depot & customer locations
     $depot.text(depotLoc.join('\n'))
@@ -207,13 +223,13 @@ $(function () {
         map.clear()
 
         opts.depotLoc = $depot.text().split('\n')
-        //opts.customers = $customers.text().split('\n')
+        opts.customers = $customers.text().split('\n')
 
-        var all_customers = $customers.text().split('\n');
-        all_customers.forEach(function (el, j) {
-            opts.customer_demands.push(el.split('|')[0])
-            opts.customers.push(el.split('|')[1])
-        })
+        //var all_customers = $customers.text().split('\n');
+        //all_customers.forEach(function (el, j) {
+        //    opts.customers.push(el.split('|')[1])
+        //    opts.customer_demands.push(el.split('|')[0])
+        //})
 
         var inputValid = true
 

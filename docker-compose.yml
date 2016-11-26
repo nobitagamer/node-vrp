@@ -2,10 +2,14 @@
 version: "2"
 services:
   web:
+    image: gitlab.honestbee.com/trieunk/vrp_public:latest
     build: .
     volumes:
       - ./:/app
+      - apidata:/var/data
     environment:
       - PORT=9999
     ports:
       - "80:9999"
+volumes:
+  apidata:

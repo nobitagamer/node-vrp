@@ -158,14 +158,56 @@ var customerLocations = [
   ]
 ]
 var depot = [
-  [
+    [
+        1,
+        -1
+    ]
+];
+var customer_demands = [
+    5,
+    24,
+    3,
+    20,
+    26,
+    23,
+    15,
+    3,
+    20,
+    16,
+    9,
+    21,
+    3,
+    24,
+    14,
+    6,
+    6,
+    13,
+    5,
+    3,
+    3,
+    20,
+    16,
+    22,
+    10,
+    12,
+    20,
+    24,
+    6,
     1,
-    -1
-  ]
-]
+    2,
+    13,
+    7,
+    6,
+    24,
+    19,
+    4,
+    7
+];
+
 
 // console.log(utils.getDistances(customerLocations))
 // console.log(utils.getDepotDistances(depot, customerLocations))
+console.log("Total worker:" + utils.getMinWorkers(100, customer_demands));
 
 var testCases = [
   {

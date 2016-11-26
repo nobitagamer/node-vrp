@@ -2,7 +2,7 @@
 version: "2"
 services:
   web:
-    image: gitlab.honestbee.com/trieunk/vrp_public:latest
+    image: glr.honestbee.com/trieunk/vrp_public:latest
     build: .
     volumes:
       - ./:/app

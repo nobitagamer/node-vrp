@@ -166,7 +166,7 @@ $(function () {
     //
     //  Fill demo with example
     //
-    var depotLoc = '9 Nguyễn Trãi, Bến Thành, Quận 1, Hồ Chí Minh, Vietnam'
+    var depotLoc = ['9 Nguyễn Trãi, Bến Thành, Quận 1, Hồ Chí Minh, Vietnam']
     var customers = [
       '10|Công viên 30-4, Pasteur, Bến Nghé, Hồ Chí Minh, Bến Nghé Quận 1 Hồ Chí Minh, Vietnam',
       '11|Bến tàu khách Thành phố, Bến Nghé, District 1, Ho Chi Minh, Vietnam',

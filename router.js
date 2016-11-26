@@ -27,6 +27,8 @@ function Router (opts) {
   opts.verbose = !!opts.verbose
 
   this.opts = opts
+
+  console.log('opts', opts)
 }
 
 //
@@ -108,15 +110,14 @@ Router.prototype.solveMdc = function () {
       n++
       i++
     }
+
+    // reduce temperature
+    this.reduceTemperature()
   }
-  
+
   var elapsed = Date.now() - t1
 
-  return {
-    routes: this.solution,
-    cost: this.cost,
-    elapsed: elapsed
-  }
+  return { solution: this.solution, cost: this.cost, elapsed: elapsed }
 }
 
 //
@@ -148,36 +149,31 @@ Router.prototype.solve = function () {
       var cost = this.getCost(neighbor)
       var deltaCost = cost - this.cost
 
-      //if (capacity <= worker.capacity) {
-          
-      //}
-
       if (deltaCost <= 0) {
-          // accept this solution; it's a better one
+        // accept this solution; it's a better one
+        this.solution = neighbor
+        this.cost = cost
+
+        if (deltaCost < 0) { this.stability = 0 }
+
+        this.log('\ngot better solution. %s cost: %s. Accepting.', deltaChar, deltaCost)
+      } else {
+        // determine whether to accept this worse solution
+        var x = Math.random()
+        var prob = Math.pow(E, -deltaCost / this.temperature)
+
+        var template = '\ngot worse solution. %s cost: %s temp: %s acceptance prob: %s'
+
+        this.log(template, deltaChar, deltaCost, this.temperature, prob)
+
+        if (x < prob) {
+          this.log('accepting worse solution')
           this.solution = neighbor
           this.cost = cost
-
-          if (deltaCost < 0) { this.stability = 0 }
-
-          this.log('\ngot better solution. %s cost: %s. Accepting.', deltaChar, deltaCost)
-      }
-      else {
-          // determine whether to accept this worse solution
-          var x = Math.random()
-          var prob = Math.pow(E, -deltaCost / this.temperature)
-
-          var template = '\ngot worse solution. %s cost: %s temp: %s acceptance prob: %s'
-
-          this.log(template, deltaChar, deltaCost, this.temperature, prob)
-
-          if (x < prob) {
-              this.log('accepting worse solution')
-              this.solution = neighbor
-              this.cost = cost
-              this.stability = 0
-          } else {
-              this.log('rejecting worse solution')
-          }
+          this.stability = 0
+        } else {
+          this.log('rejecting worse solution')
+        }
       }
 
       this.log('solution #', i, ':', this.solution)
@@ -282,6 +278,8 @@ Router.prototype.getPermutation = function () {
 //
 Router.prototype.getRouteDistance = function (route) {
   var dist = 0
+  var demands = this.opts.customer_demands || []
+  var capacity = 0
 
   if (route.length === 0) { return dist }
 
@@ -295,7 +293,17 @@ Router.prototype.getRouteDistance = function (route) {
   for (var i = 1, j = route.length; i < j; i++) {
     var customer = route[i]
     dist += this.opts.distances[prev][customer]
+    capacity += demands[customer]
+
     prev = customer
+  }
+
+  // Validate capacity
+  if (capacity > this.opts.capacity) {
+    // Set to max dist to reject solution
+    this.log('REJECT overloaded (%s > %s)', capacity, this.opts.capacity)
+
+    return this.cost + 1
   }
 
   // add distance to return to depot
@@ -321,11 +329,13 @@ Router.prototype.getCost = function (solution) {
     var dist = self.getRouteDistance(route)
     cost += dist
 
+    self.log('distance %s', cost)
     // penalize length overage (if there is one)
     if (maxLen > 0 && dist > maxLen) {
       cost += self.opts.lengthPenalty * (dist - maxLen)
     }
   })
+
   return cost
 }
 
@@ -350,6 +360,32 @@ Router.prototype.getRandomSolution = function () {
     var worker = index % numWorkers
     if (!solution[worker]) { solution[worker] = [ customer ] } else { solution[worker].push(customer) }
   })
+
+  return solution
+}
+
+//
+//  get a random solution plan with capacity
+//
+Router.prototype.getMdcRandomSolution = function () {
+  var cust = this.opts.customers
+  var numWorkers = this.opts.numWorkers
+  var solution = []
+
+  // randomize customer order
+  cust.sort(function (a, b) {
+    var aNum = Math.random()
+    var bNum = Math.random()
+
+    return aNum - bNum
+  })
+
+  // assign customers to our workers (equally distributed)
+  cust.forEach(function (customer, index) {
+    var worker = index % numWorkers
+    if (!solution[worker]) { solution[worker] = [ customer ] } else { solution[worker].push(customer) }
+  })
+
   return solution
 }
 

@@ -1,9 +1,172 @@
 var http = require('http')
 var Stork = require('../stork')
 
-//
-//  tests
-//
+var utils = require('../lib/utils');
+
+
+var customer_locations =  [
+  [
+            43, 
+            19
+        ], 
+        [
+            79, 
+            35
+        ], 
+        [
+            93, 
+            7
+        ], 
+        [
+            13, 
+            35
+        ], 
+        [
+            67, 
+            13
+        ], 
+        [
+            31, 
+            77
+        ], 
+        [
+            81, 
+            7
+        ], 
+        [
+            27, 
+            49
+        ], 
+        [
+            27, 
+            35
+        ], 
+        [
+            69, 
+            23
+        ], 
+        [
+            31, 
+            51
+        ], 
+        [
+            27, 
+            27
+        ], 
+        [
+            15, 
+            83
+        ], 
+        [
+            7, 
+            35
+        ], 
+        [
+            53, 
+            25
+        ], 
+        [
+            75, 
+            13
+        ], 
+        [
+            47, 
+            49
+        ], 
+        [
+            25, 
+            33
+        ], 
+        [
+            1, 
+            23
+        ], 
+        [
+            45, 
+            11
+        ], 
+        [
+            1, 
+            47
+        ], 
+        [
+            93, 
+            15
+        ], 
+        [
+            41, 
+            9
+        ], 
+        [
+            75, 
+            55
+        ], 
+        [
+            3, 
+            1
+        ], 
+        [
+            51, 
+            67
+        ], 
+        [
+            57, 
+            91
+        ], 
+        [
+            21, 
+            97
+        ], 
+        [
+            55, 
+            13
+        ], 
+        [
+            3, 
+            71
+        ], 
+        [
+            37, 
+            19
+        ], 
+        [
+            73, 
+            21
+        ], 
+        [
+            19, 
+            19
+        ], 
+        [
+            75, 
+            73
+        ], 
+        [
+            93, 
+            49
+        ], 
+        [
+            41, 
+            87
+        ], 
+        [
+            97, 
+            73
+        ], 
+        [
+            45, 
+            29
+        ]
+    ];
+var depot =[ [
+    1,
+    -1
+]];
+
+//console.log(utils.getDistances(customer_locations));
+//console.log(utils.getDepotDistances(depot, customer_locations));
+
+
 var testCases = [
   {
     numWorkers: 3,
@@ -52,7 +215,7 @@ new Stork({ port: 8080 }).start()
 
 var reqOpts = {
   host: '127.0.0.1',
-  port: 8000,
+  port: 8080,
   path: '/solve',
   method: 'POST',
   headers: {

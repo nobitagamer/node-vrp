@@ -39,7 +39,7 @@ Stork.prototype.registerRoutes = function () {
   app.post('/solve', function (req, res) {
     var opts = req.body
 
-    console.log('opts', opts)
+    //console.log('opts', opts)
 
     var router = new Router(opts)
     var result = router.solve()

@@ -1,6 +1,7 @@
 var path = require('path')
 var express = require('express')
 var Router = require('./router')
+var utils = require('./lib/utils')
 
 // Middlewares
 var bodyParser = require('body-parser')
@@ -36,8 +37,62 @@ Stork.prototype.registerRoutes = function () {
   app.get('/', function (req, res) {
     res.sendfile(path.resolve(__dirname, 'views/map.html'))
   })
+
+  app.post('/mdcvrp', function (req, res) {
+    var input = req.body.problem_data
+    // Request
+    //     POST /mdcvrp HTTP/1.1
+    //     Content-Type: application/json
+    //     Content-Length: <length>
+    //     {
+    //         "problem_name": "name",
+    //         "problem_data": {
+    //             "vehicle_capacity": <INT>,
+    //             "depots": [[<x>, <y>], ...],
+    //             "customer_locations": [[<x>, <y>], ...],
+    //             "customer_demands": [...]
+    //         }
+
+    //     }
+
+    // Response
+    //     {
+    //         "routes": [
+    //             [[0, 2, 4]], # Routes from the first depot
+    //             [[1, 3]],    # Routes from the second depot
+    //         ]
+    //     }
+
+    var numCustomers = input.customer_demands.length
+    var customers = []
+    for (var i = 0; i < numCustomers; i++) {
+      customers.push[i]
+    }
+
+    var opts = {
+      numWorkers: 1,
+      capacity: input.vehicle_capacity,
+      customers: customers,
+      customer_demands: input.customer_demands,
+      distances: utils.getDistances(input.customer_locations),
+      depots: utils.getDepotDistances(input.depots, input.customer_locations),
+      maxRouteLength: 0,
+      lengthPenalty: 0,
+      stability: 1000,
+      verbose: true
+    }
+
+    console.log('opts', opts)
+
+    var router = new Router(opts)
+    var result = router.solveMdc()
+
+    res.json(result)
+    res.end()
+  })
+
   app.post('/solve', function (req, res) {
-    var opts = req.body
+    var opts = req
 
     console.log('opts', opts)
 

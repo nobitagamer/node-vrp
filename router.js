@@ -41,6 +41,29 @@ if (typeof module !== 'undefined') {
 }
 
 //
+//  solve the problem with multi-depots and workers capacity
+//
+//  Response
+//     {
+//         "routes": [
+//             [[0, 2, 4]], # Routes from the first depot
+//             [[1, 3]],    # Routes from the second depot
+//         ]
+//     }
+Router.prototype.solveMdc = function () {
+  var t1 = Date.now()
+  // var self = this
+
+  var elapsed = Date.now() - t1
+
+  return {
+    routes: this.solution,
+    cost: this.cost,
+    elapsed: elapsed
+  }
+}
+
+//
 //  solve the problem
 //
 Router.prototype.solve = function () {

@@ -136,18 +136,31 @@
     </div>
     <div id="options">
         <h2>Options</h2>
+
         <div id="depot-label" class="custom-label">Depot Location</div>
-        <input id="depot" type="text" />
+        <textarea id="depot" placeholder="Input..."></textarea>
+
         <div id="customers-label" class="custom-label">Customer Locations (1 per line)</div>
-        <textarea id="customers"></textarea>
+        <textarea id="customers" placeholder="Input..."></textarea>
+        
+        <!--<div id="customer-capacity-label" class="custom-label">Customer Capacity</div>
+        <input id="customer-capacity" type="text" placeholder="Input..." />-->
+
         <div id="numWorkers-label" class="custom-label"># Workers</div>
-        <input id="numWorkers" type="text" />
+        <input id="numWorkers" type="text" placeholder="Input..." />
+        
+        <!--<div id="workers-capacity-label" class="custom-label">Workers Capacity</div>
+        <input id="workers-capacity" type="text" placeholder="Input..." />-->
+
         <div id="maxRouteLength-label" class="custom-label">Max Route Length</div>
-        <input id="maxRouteLength" type="text" />
+        <input id="maxRouteLength" type="text" placeholder="Input..." />
+
         <div id="lengthPenalty-label" class="custom-label">Length Overage Penalty</div>
-        <input id="lengthPenalty" type="text" />
+        <input id="lengthPenalty" type="text" placeholder="Input..." />
+
         <div id="stability-label" class="custom-label">Stability</div>
-        <input id="stability" type="text" />
+        <input id="stability" type="text" placeholder="Input..." />
+
         <button id="submit">Submit</button>
         <div id="errorMessage"></div>
     </div>

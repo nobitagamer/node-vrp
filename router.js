@@ -148,31 +148,36 @@ Router.prototype.solve = function () {
       var cost = this.getCost(neighbor)
       var deltaCost = cost - this.cost
 
+      //if (capacity <= worker.capacity) {
+          
+      //}
+
       if (deltaCost <= 0) {
-        // accept this solution; it's a better one
-        this.solution = neighbor
-        this.cost = cost
-
-        if (deltaCost < 0) { this.stability = 0 }
-
-        this.log('\ngot better solution. %s cost: %s. Accepting.', deltaChar, deltaCost)
-      } else {
-        // determine whether to accept this worse solution
-        var x = Math.random()
-        var prob = Math.pow(E, -deltaCost / this.temperature)
-
-        var template = '\ngot worse solution. %s cost: %s temp: %s acceptance prob: %s'
-
-        this.log(template, deltaChar, deltaCost, this.temperature, prob)
-
-        if (x < prob) {
-          this.log('accepting worse solution')
+          // accept this solution; it's a better one
           this.solution = neighbor
           this.cost = cost
-          this.stability = 0
-        } else {
-          this.log('rejecting worse solution')
-        }
+
+          if (deltaCost < 0) { this.stability = 0 }
+
+          this.log('\ngot better solution. %s cost: %s. Accepting.', deltaChar, deltaCost)
+      }
+      else {
+          // determine whether to accept this worse solution
+          var x = Math.random()
+          var prob = Math.pow(E, -deltaCost / this.temperature)
+
+          var template = '\ngot worse solution. %s cost: %s temp: %s acceptance prob: %s'
+
+          this.log(template, deltaChar, deltaCost, this.temperature, prob)
+
+          if (x < prob) {
+              this.log('accepting worse solution')
+              this.solution = neighbor
+              this.cost = cost
+              this.stability = 0
+          } else {
+              this.log('rejecting worse solution')
+          }
       }
 
       this.log('solution #', i, ':', this.solution)

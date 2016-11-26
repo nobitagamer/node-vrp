@@ -52,37 +52,26 @@ Stork.prototype.registerRoutes = function () {
     //             "customer_locations": [[<x>, <y>], ...],
     //             "customer_demands": [...]
     //         }
-
-    //     }
-
-    // Response
-    //     {
-    //         "routes": [
-    //             [[0, 2, 4]], # Routes from the first depot
-    //             [[1, 3]],    # Routes from the second depot
-    //         ]
     //     }
 
     var numCustomers = input.customer_demands.length
     var customers = []
     for (var i = 0; i < numCustomers; i++) {
-      customers.push[i]
+      customers[i] = i
     }
 
     var opts = {
-      numWorkers: 1,
-      capacity: input.vehicle_capacity,
-      customers: customers,
       customer_demands: input.customer_demands,
       distances: utils.getDistances(input.customer_locations),
-      depots: utils.getDepotDistances(input.depots, input.customer_locations),
+      depot: utils.getDepotDistances(input.depots, input.customer_locations)[0],
       maxRouteLength: 0,
       lengthPenalty: 0,
       stability: 1000,
+      numWorkers: utils.getMinWorkers(input.vehicle_capacity, input.customer_demands),
+      capacity: input.vehicle_capacity,
+      customers: customers,
       verbose: true
     }
-
-    console.log('opts', opts)
 
     var router = new Router(opts)
     var result = router.solveMdc()
@@ -92,9 +81,9 @@ Stork.prototype.registerRoutes = function () {
   })
 
   app.post('/solve', function (req, res) {
-    var opts = req
+    var opts = req.body
 
-    //console.log('opts', opts)
+    // console.log('opts', opts)
 
     var router = new Router(opts)
     var result = router.solve()
